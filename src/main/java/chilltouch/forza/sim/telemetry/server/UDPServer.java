@@ -9,6 +9,7 @@ public class UDPServer extends Thread {
     private int port;
     private int bufferSize;
     private volatile boolean running = false;
+    private DatagramSocket udp;
 
     public UDPServer(int port, int bufferSize) throws SocketException {
         this.bufferSize = bufferSize;
@@ -22,21 +23,18 @@ public class UDPServer extends Thread {
 
     @Override
     public void run() {
-        InetSocketAddress address = new InetSocketAddress("192.168.0.203", this.port);
+        InetSocketAddress address = new InetSocketAddress("192.168.0.204", this.port);
         try {
-            DatagramSocket udpServer = new DatagramSocket(address);
+            udp = new DatagramSocket(address);
             byte[] buffer = new byte[500];
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-            for(;;) {
-                if (!running) {
-                    break;
-                }
+            while(running) {
                 try {
-                    udpServer.receive(packet);
+                    udp.receive(packet);
+                    System.out.println(Adaptor.getEntity(packet.getData()));
                 } catch (Exception ie) {
                     System.out.println(ie.getMessage());
                 }
-                System.out.println("data received: " + Adaptor.getEntity(packet.getData()));
             }
         } catch (SocketException e) {
             e.printStackTrace();
@@ -48,20 +46,7 @@ public class UDPServer extends Thread {
     }
 
     public void stopServer() {
+        udp.disconnect();
         this.running = false;
-    }
-
-    public static StringBuilder data(byte[] a)
-    {
-        if (a == null)
-            return null;
-        StringBuilder ret = new StringBuilder();
-        int i = 0;
-        while (a[i] != 0)
-        {
-            ret.append((char) a[i]);
-            i++;
-        }
-        return ret;
     }
 }
