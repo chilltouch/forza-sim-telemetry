@@ -1,12 +1,9 @@
 package chilltouch.forza.sim.telemetry.server;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
+import java.net.*;
 
 public class UDPServer extends Thread {
-    private DatagramSocket udpServer;
     private int port;
     private int bufferSize;
     private volatile boolean running = false;
@@ -14,36 +11,56 @@ public class UDPServer extends Thread {
     public UDPServer(int port, int bufferSize) throws SocketException {
         this.bufferSize = bufferSize;
         this.port = port;
-        initServer();
+        this.running = true;
     }
 
     private void initServer() throws SocketException {
         this.running = true;
-        this.udpServer = new DatagramSocket(port);
     }
 
     @Override
     public void run() {
-        while (running) {
-            try {
-                byte[] buffer = new byte[1024];
-                DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
-                udpServer.receive(receivePacket);
-                String sentence = new String( receivePacket.getData());
-                System.out.println(sentence);
-            } catch (IOException e) {
-                e.printStackTrace();
+        InetSocketAddress address = new InetSocketAddress("192.168.0.204", this.port);
+        try (DatagramSocket udpServer = new DatagramSocket(address)) {
+            byte[] buffer = new byte[500];
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+            byte[] secondBuffer = new byte[500];
+            for(;;) {
+                if (!running) {
+                    break;
+                }
+                try {
+                    udpServer.receive(packet);
+                    secondBuffer = packet.getData();
+                } catch (Exception ie) {
+                    System.out.println(ie.getMessage());
+                }
+                System.out.println("data received: " + data(secondBuffer));
             }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception ee) {
+            ee.printStackTrace();
         }
-
-        destroyServer();
     }
 
     public void stopServer() {
         this.running = false;
     }
 
-    public void destroyServer() {
-        this.udpServer.close();
+    public static StringBuilder data(byte[] a)
+    {
+        if (a == null)
+            return null;
+        StringBuilder ret = new StringBuilder();
+        int i = 0;
+        while (a[i] != 0)
+        {
+            ret.append((char) a[i]);
+            i++;
+        }
+        return ret;
     }
 }

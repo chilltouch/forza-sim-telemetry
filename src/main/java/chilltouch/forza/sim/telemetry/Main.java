@@ -6,7 +6,7 @@ import java.net.SocketException;
 
 public class Main {
     public static void main(String[] args) throws SocketException {
-        UDPServer server = new UDPServer(12345, 1024);
+        UDPServer server = new UDPServer(5685, 1024);
         server.start();
     }
 }
