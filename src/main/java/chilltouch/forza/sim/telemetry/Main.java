@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws SocketException {
-        UDPServer server = new UDPServer(5690, 1024);
+        UDPServer server = new UDPServer(5690, 500);
         server.start();
         Scanner entry = new Scanner(System.in);
         System.out.println("Press any key to close");

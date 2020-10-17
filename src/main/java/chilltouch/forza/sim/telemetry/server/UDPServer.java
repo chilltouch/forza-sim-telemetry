@@ -26,7 +26,8 @@ public class UDPServer extends Thread {
         InetSocketAddress address = new InetSocketAddress("192.168.0.204", this.port);
         try {
             udp = new DatagramSocket(address);
-            byte[] buffer = new byte[500];
+            udp.setSoTimeout(3000);
+            byte[] buffer = new byte[bufferSize];
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
             while(running) {
                 try {
@@ -46,7 +47,6 @@ public class UDPServer extends Thread {
     }
 
     public void stopServer() {
-        udp.disconnect();
         this.running = false;
     }
 }
