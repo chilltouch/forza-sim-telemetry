@@ -26,7 +26,7 @@ public class UDPServer extends Thread {
     public void run() {
         while (running) {
             try {
-                byte[] buffer = new byte[1500];
+                byte[] buffer = new byte[1024];
                 DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
                 udpServer.receive(receivePacket);
                 String sentence = new String( receivePacket.getData());
