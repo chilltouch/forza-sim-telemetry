@@ -1,5 +1,7 @@
 package chilltouch.forza.sim.telemetry.server;
 
+import chilltouch.forza.sim.telemetry.utils.Adaptor;
+
 import java.io.IOException;
 import java.net.*;
 
@@ -20,22 +22,21 @@ public class UDPServer extends Thread {
 
     @Override
     public void run() {
-        InetSocketAddress address = new InetSocketAddress("192.168.0.204", this.port);
-        try (DatagramSocket udpServer = new DatagramSocket(address)) {
+        InetSocketAddress address = new InetSocketAddress("192.168.0.203", this.port);
+        try {
+            DatagramSocket udpServer = new DatagramSocket(address);
             byte[] buffer = new byte[500];
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-            byte[] secondBuffer = new byte[500];
             for(;;) {
                 if (!running) {
                     break;
                 }
                 try {
                     udpServer.receive(packet);
-                    secondBuffer = packet.getData();
                 } catch (Exception ie) {
                     System.out.println(ie.getMessage());
                 }
-                System.out.println("data received: " + data(secondBuffer));
+                System.out.println("data received: " + Adaptor.getEntity(packet.getData()));
             }
         } catch (SocketException e) {
             e.printStackTrace();
