@@ -3,6 +3,7 @@ package chilltouch.forza.sim.telemetry.utils;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 
@@ -10,13 +11,15 @@ public class PropertiesManager {
 
     private static PropertiesManager INSTANCE;
 
-    private static final String PROP_FILE = "application.properties";
+    private final String PROP_FILE;
 
     private Properties properties;
 
     private PropertiesManager() throws IOException {
         this.properties = new Properties();
+        PROP_FILE = Paths.get("").toAbsolutePath().toString() + "/src/resources/application.properties";
         loadProperties();
+        System.out.println(PROP_FILE);
     }
 
     private void loadProperties() throws IOException {
@@ -39,11 +42,13 @@ public class PropertiesManager {
     }
 
     public Integer getInt(String key) {
-        return (Integer) this.getValue(key);
+        String value = this.getString(key);
+        return Integer.parseInt(value);
     }
 
     public Long getLong(String key) {
-        return (Long) this.getValue(key);
+        String value = this.getString(key);
+        return Long.parseLong(value);
     }
 
     public String getString(String key) {

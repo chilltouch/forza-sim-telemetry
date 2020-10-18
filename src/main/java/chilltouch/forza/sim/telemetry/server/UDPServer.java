@@ -15,12 +15,6 @@ public class UDPServer extends Thread {
     private DatagramSocket udp;
     private PropertiesManager propertiesManager;
 
-    public UDPServer(int port, int bufferSize) throws SocketException {
-        this.bufferSize = bufferSize;
-        this.port = port;
-        this.running = true;
-    }
-
     public UDPServer(PropertiesManager propertiesManager) {
         this.propertiesManager = propertiesManager;
         this.bufferSize = propertiesManager.getInt(PropertyKeys.BUFFER_SIZE);

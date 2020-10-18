@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         PropertiesManager propertiesManager = PropertiesManager.getManagerInstance();
 
-        UDPServer server = new UDPServer(5690, 500);
+        UDPServer server = new UDPServer(propertiesManager);
         server.start();
         Scanner entry = new Scanner(System.in);
         System.out.println("Press any key to close");
