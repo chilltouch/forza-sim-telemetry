@@ -51,6 +51,11 @@ public class PropertiesManager {
         return Long.parseLong(value);
     }
 
+    public Float getFloat(String key) {
+        String value = this.getString(key);
+        return Float.parseFloat(value);
+    }
+
     public String getString(String key) {
         return (String) this.getValue(key);
     }
