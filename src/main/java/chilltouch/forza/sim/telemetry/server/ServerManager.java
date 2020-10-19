@@ -10,6 +10,7 @@ public class ServerManager implements Observer<PropertiesManager> {
     public ServerManager(PropertiesManager propertiesManager) {
         this.propertiesManager = propertiesManager;
         this.server = new UDPServer(propertiesManager);
+        this.propertiesManager.addObserver(this);
     }
 
     public void startServer() {
@@ -17,11 +18,16 @@ public class ServerManager implements Observer<PropertiesManager> {
         this.server.start();
     }
 
+    public void forceStop() {
+        this.server.stopServer();
+        this.server.destroyServer();
+    }
+
     @Override
     public void observe(PropertiesManager object) {
-        System.out.println("Properties were changed\nStopping the server");
         this.server.stopServer();
+        this.server.destroyServer();
         this.server = new UDPServer(object);
-        this.server.start();
+        this.startServer();
     }
 }

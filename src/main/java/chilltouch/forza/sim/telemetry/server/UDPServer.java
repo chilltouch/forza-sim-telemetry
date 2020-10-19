@@ -28,7 +28,7 @@ public class UDPServer extends Thread {
 
     @Override
     public void run() {
-        InetSocketAddress address = new InetSocketAddress("192.168.0.204", this.port);
+        InetSocketAddress address = new InetSocketAddress("192.168.0.203", this.port);
         try {
             udp = new DatagramSocket(address);
             udp.setSoTimeout(soTimeout);
@@ -51,6 +51,12 @@ public class UDPServer extends Thread {
             ee.printStackTrace();
         }
         System.out.println("Server is stopped");
+        destroyServer();
+    }
+
+    public void destroyServer() {
+        this.udp.disconnect();
+        this.udp.close();
     }
 
     public void stopServer() {

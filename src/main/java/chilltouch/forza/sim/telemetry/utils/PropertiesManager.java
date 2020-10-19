@@ -96,7 +96,9 @@ public class PropertiesManager implements Observable<PropertiesManager> {
 
     @Override
     public void emit(PropertiesManager obj) {
-        observers.stream().forEach(o -> { o.observe(this); System.out.println("emitings");});
+        observers.stream().forEach(o -> {
+            o.observe(this);
+        });
     }
 
     @Override

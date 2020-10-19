@@ -96,7 +96,6 @@ public class Adaptor {
             entity.setRaceCurrentLap(readBytes(bytes, 292, 296).getFloat());
             entity.setRaceCurrentRaceTime(readBytes(bytes, 296, 300).getFloat());
 
-
             entity.setRaceLapNumber((int) readBytes(bytes, 300, 302).get()); //technically unsigned
             entity.setRacePosition((int) readBytes(bytes, 302, 303).get()); //technically unsigned
             entity.setCarAccel((int) readBytes(bytes, 303, 304).get() & 0xFF); //due to being uint8

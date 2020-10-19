@@ -15,7 +15,7 @@ public class Main {
 
         Scanner entry = new Scanner(System.in);
         System.out.println("Press any key to close");
-        entry.next();
-        propertiesManager.update("test", "test");
+        entry.nextLine();
+        manager.forceStop();
     }
 }
