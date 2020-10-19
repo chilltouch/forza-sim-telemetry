@@ -1,6 +1,6 @@
 package chilltouch.forza.sim.telemetry;
 
-import chilltouch.forza.sim.telemetry.server.UDPServer;
+import chilltouch.forza.sim.telemetry.server.ServerManager;
 import chilltouch.forza.sim.telemetry.utils.PropertiesManager;
 
 import java.io.IOException;
@@ -10,11 +10,12 @@ public class Main {
     public static void main(String[] args) throws IOException {
         PropertiesManager propertiesManager = PropertiesManager.getManagerInstance();
 
-        UDPServer server = new UDPServer(propertiesManager);
-        server.start();
+        ServerManager manager = new ServerManager(propertiesManager);
+        manager.startServer();
+
         Scanner entry = new Scanner(System.in);
         System.out.println("Press any key to close");
         entry.next();
-        server.stopServer();
+        propertiesManager.update("test", "test");
     }
 }

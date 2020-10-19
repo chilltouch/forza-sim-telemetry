@@ -22,8 +22,7 @@ public class UDPServer extends Thread {
         this.soTimeout = propertiesManager.getInt(PropertyKeys.TIMEOUT);
     }
 
-
-    private void initServer() throws SocketException {
+    public void startServer() {
         this.running = true;
     }
 
@@ -35,6 +34,7 @@ public class UDPServer extends Thread {
             udp.setSoTimeout(soTimeout);
             byte[] buffer = new byte[bufferSize];
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+            System.out.println("Server is started....");
             while(running) {
                 try {
                     udp.receive(packet);
@@ -50,9 +50,11 @@ public class UDPServer extends Thread {
         } catch (Exception ee) {
             ee.printStackTrace();
         }
+        System.out.println("Server is stopped");
     }
 
     public void stopServer() {
+        System.out.println("Stopping the server");
         this.running = false;
     }
 }
