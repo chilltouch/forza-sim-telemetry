@@ -50,8 +50,8 @@ public class UDPServer extends Thread {
         } catch (Exception ee) {
             ee.printStackTrace();
         }
-        System.out.println("Server is stopped");
         destroyServer();
+        System.out.println("Server is stopped");
     }
 
     public void destroyServer() {
@@ -60,7 +60,6 @@ public class UDPServer extends Thread {
     }
 
     public void stopServer() {
-        System.out.println("Stopping the server");
         this.running = false;
     }
 }
