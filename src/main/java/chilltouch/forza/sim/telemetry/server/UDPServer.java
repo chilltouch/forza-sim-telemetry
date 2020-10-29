@@ -28,7 +28,12 @@ public class UDPServer extends Thread {
 
     @Override
     public void run() {
-        InetSocketAddress address = new InetSocketAddress("192.168.0.203", this.port);
+        InetSocketAddress address = null;
+        try {
+            address = new InetSocketAddress(InetAddress.getLocalHost(), this.port);
+        } catch (UnknownHostException e) {
+            System.out.println("cannot get local host address, server is dieing");
+        }
         try {
             udp = new DatagramSocket(address);
             udp.setSoTimeout(soTimeout);
